@@ -1,4 +1,5 @@
 import CascaderWithTitle from "./Cascader";
+import CheckboxLabelled from "./Checkbox";
 import InputNumberWithTitle from "./InputNumber";
 
 
@@ -12,6 +13,8 @@ function Profile(){
       <div className="flex-row">
         <CascaderWithTitle/>
         <InputNumberWithTitle/>
+        <CheckboxLabelled label={'Smoker'}/>
+        <CheckboxLabelled label={'Pets'}/>
       </div>
     </div>
   )
