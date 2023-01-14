@@ -1,11 +1,35 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Profile from './components/Profile';
 
 function App() {
 
   const [tabURL, setTabURL] = useState('');
+  const [profileInfo, setProfileInfo] = useState({
+    diet: '',
+    smoker: false,
+    pets: false,
+    age: 20,
+    rangePicked: ''
+  });
+
+
+  useEffect(()=>{
+    chrome.storage.session.get(['profileInfo']).then((result) => {
+      console.log("Value currently is " + result.profileInfo);
+      setProfileInfo(result.profileInfo);
+    });
+  },[])
+
+  useEffect(() => {
+  
+    chrome.storage.session.set({ profileInfo: profileInfo }).then(() => {
+      console.log("Value is set to " + profileInfo);
+    });
+
+  }, [profileInfo])
+
 
   async function getCurrentTab() {
     let queryOptions = { active: true, lastFocusedWindow: true };
@@ -18,11 +42,19 @@ function App() {
 
   return (
     <div className="App">
-      <Profile/>
+      <Profile profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
       <button onClick={getCurrentTab}>Click Me</button>
       {
         tabURL && <p>{tabURL}</p>
       }
+      { profileInfo && <p>{profileInfo.diet}</p>}
+      {profileInfo && <p>{profileInfo.smoker ? 'true' : 'false'}</p>}
+      {profileInfo && <p>{profileInfo.pets ? 'true' : 'false'}</p>}
+      { profileInfo && <p>{profileInfo.age}</p>}
+      { profileInfo && <p>{profileInfo.rangePicked[0]}</p>}
+      { profileInfo && <p>{profileInfo.rangePicked[1]}</p>}
+      {/* { profileInfo && <p>{profileInfo.rangePicked.slice(0,7)}</p>} */}
+      
     </div>
   );
 }

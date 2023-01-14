@@ -16,7 +16,7 @@ function TagSelectorLabelled({label, options, placeholder}){
       <h3>{label}</h3>
       <Select
         mode="tags"
-        style={{width: 200}}
+        style={{width: 150}}
         placeholder={placeholder}
         onChange={handleChange}
         options={options}

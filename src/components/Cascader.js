@@ -24,16 +24,17 @@ const options = [
   },
 ];
 
-const onChange = (value) => {
-  console.log(value);
-};
 
-function CascaderWithTitle(props){
-
+function CascaderWithTitle({profileInfo, setProfileInfo}){
+  
+  const onChange = (value) => {
+    console.log(value);
+    setProfileInfo({...profileInfo, diet: value})
+  };
   return (
     <div>
       <h3>Diet</h3>
-      <Cascader options={options} onChange={onChange} placeholder="Please select" />
+      <Cascader options={options} onChange={onChange} placeholder="Please select" value={ profileInfo !== undefined ? profileInfo.diet : null} />
     </div>
   )
  
