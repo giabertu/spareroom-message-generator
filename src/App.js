@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
+import Profile from './components/Profile';
 
 function App() {
 
@@ -17,21 +18,8 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <Profile/>
       <button onClick={getCurrentTab}>Click Me</button>
-      </header>
       {
         tabURL && <p>{tabURL}</p>
       }
@@ -40,3 +28,6 @@ function App() {
 }
 
 export default App;
+
+
+//www.spareroom.co.uk/flatshare/flatshare_detail.pl?flatshare_id=16543345&search_id=&city_id=&flatshare_type=offered&search_results=%2Fflatshare%2F%3Ffilter%3Dshortlist%26flatshare_type%3Doffered&
