@@ -8,7 +8,10 @@ function CheckboxLabelled ({label}){
   };
 
   return (
-    <Checkbox onChange={onChange}>{label}</Checkbox>
+    <div>
+      <h3>{label}</h3>
+      <Checkbox onChange={onChange}></Checkbox>
+    </div>
   )
 
 } 

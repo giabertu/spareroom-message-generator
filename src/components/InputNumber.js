@@ -10,7 +10,7 @@ function InputNumberWithTitle(){
   return (
     <div>
       <h3>Age</h3>
-      <InputNumber min={1} max={10} defaultValue={3} onChange={onChange} />
+      <InputNumber min={15} max={100} defaultValue={20} onChange={onChange} />
     </div>
   )
 } 
