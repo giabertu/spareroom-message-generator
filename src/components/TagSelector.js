@@ -2,11 +2,12 @@ import { Select } from 'antd';
 
 
 
-function TagSelectorLabelled({label, options, placeholder}){
+function TagSelectorLabelled({label, options, placeholder, profileInfo, setProfileInfo}){
 
 
   const handleChange = (value) => {
     console.log(`selected ${value}`);
+    setProfileInfo({...profileInfo, hobbies: value})
   };
 
 
@@ -20,6 +21,7 @@ function TagSelectorLabelled({label, options, placeholder}){
         placeholder={placeholder}
         onChange={handleChange}
         options={options}
+        value={profileInfo && profileInfo.hobbies ? profileInfo.hobbies : null}
       />
     </div>
   );

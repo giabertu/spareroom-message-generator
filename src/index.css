@@ -17,8 +17,11 @@ code {
 .flex-col {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
+  gap: 1rem;
+  /* flex: 1 0 auto; */
 }
 
 .flex-row {
@@ -27,4 +30,12 @@ code {
   gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.debug:hover {
+  outline: 1px solid red;
+}
+
+.stretch {
+  align-self: stretch;
 }

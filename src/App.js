@@ -1,7 +1,11 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
-import Profile from './components/Profile';
+// import Profile from './components/Profile';
+import OpenAiService from './api/OpenAiService';
+import CollapseSection from './components/CollapseSection';
+import { Button } from 'antd';
+import { CloudDownloadOutlined } from '@ant-design/icons'
 
 function App() {
 
@@ -11,8 +15,12 @@ function App() {
     smoker: false,
     pets: false,
     age: 20,
-    rangePicked: ''
+    rangePicked: '',
+    occupation: '',
+    hobbies: '' //this will be an array of strings when the user selects tags
   });
+
+  const [aiMessage, setAiMessage] = useState('');
 
 
   useEffect(()=>{
@@ -39,22 +47,62 @@ function App() {
     return tab;
   }
 
+  async function callService(){
+    const service = new OpenAiService();
+    const response = await service.generateMessage();
+    console.log("OpenAI Response: " , response)
+    console.log("OpenAI text: ", response.choices[0].text)
+    setAiMessage(response.choices[0].text);
+    await copyContent(response.choices[0].text);
+  }
+
+  async function copyContent(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      console.log('Content copied to clipboard');
+      /* Resolved - text copied to clipboard successfully */
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+      /* Rejected - text failed to copy to the clipboard */
+    }
+  }
+
+  const [loadings, setLoadings] = useState([]);
+
+  const enterLoading = (index) => {
+    setLoadings((prevLoadings) => {
+      const newLoadings = [...prevLoadings];
+      newLoadings[index] = true;
+      return newLoadings;
+    });
+
+    setTimeout(() => {
+      setLoadings((prevLoadings) => {
+        const newLoadings = [...prevLoadings];
+        newLoadings[index] = false;
+        return newLoadings;
+      });
+    }, 6000);
+  };
+
 
   return (
-    <div className="App">
-      <Profile profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
-      <button onClick={getCurrentTab}>Click Me</button>
+    <div className="App flex-col debug">
+      <h2>Spareroom Message Generator ⚡️</h2>
+      <CollapseSection profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
       {
         tabURL && <p>{tabURL}</p>
       }
-      { profileInfo && <p>{profileInfo.diet}</p>}
-      {profileInfo && <p>{profileInfo.smoker ? 'true' : 'false'}</p>}
-      {profileInfo && <p>{profileInfo.pets ? 'true' : 'false'}</p>}
-      { profileInfo && <p>{profileInfo.age}</p>}
-      { profileInfo && <p>{profileInfo.rangePicked[0]}</p>}
-      { profileInfo && <p>{profileInfo.rangePicked[1]}</p>}
-      {/* { profileInfo && <p>{profileInfo.rangePicked.slice(0,7)}</p>} */}
-      
+      <Button
+          type="primary"
+          icon={<CloudDownloadOutlined />}
+          loading={loadings[1]}
+          onClick={() => {
+            callService();
+            enterLoading(1);
+          }}>
+          Generate Message
+        </Button>
     </div>
   );
 }

@@ -34,7 +34,7 @@ function CascaderWithTitle({profileInfo, setProfileInfo}){
   return (
     <div>
       <h3>Diet</h3>
-      <Cascader options={options} onChange={onChange} placeholder="Please select" value={ profileInfo !== undefined ? profileInfo.diet : null} />
+      <Cascader options={options} onChange={onChange} placeholder="Please select" value={ profileInfo !== undefined ? profileInfo.diet : null} style={{width: 150}} />
     </div>
   )
  

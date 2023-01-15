@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  height: 500px;
+  min-height: fit-content;
   width: 500px;
 }
 

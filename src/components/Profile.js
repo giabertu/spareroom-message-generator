@@ -7,9 +7,6 @@ import { JSONParser } from "../utils/JSONParser";
 import TagSelectorLabelled from "./TagSelector";
 import { useEffect } from "react";
 
-const parser = new JSONParser();
-const occOptions = parser.getOccupations();
-const hobbyOptions = parser.getHobbies();
 
 
 function Profile({profileInfo, setProfileInfo}){
@@ -24,9 +21,9 @@ function Profile({profileInfo, setProfileInfo}){
   // });
 
   return (
-    <div className="flex-col">
-      <h2>Profile Information</h2>
+    // <div className="flex-col">
       <div className="flex-row">
+      {/* <h2>Profile Information</h2> */}
         <RangePickerLabelled profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
 
         <AutoCompleteLabelled options={occOptions} label='Occupation' placeholder={'e.g. Developer'} profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
@@ -41,7 +38,7 @@ function Profile({profileInfo, setProfileInfo}){
         
         <CheckboxLabelled label={'Pets'} profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
       </div>
-    </div>
+    // </div>
   )
 
 }
