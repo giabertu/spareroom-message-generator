@@ -5,11 +5,9 @@ import InputNumberWithTitle from "./InputNumber";
 import RangePickerLabelled from "./RangePicker";
 import AutoCompleteLabelled from "./AutoComplete";
 import TagSelectorLabelled from "./TagSelector";
-import { JSONParser } from '../utils/JSONParser'
+import SetupList from './SetupList';
+import { occOptions, hobbyOptions } from '../utils/data';
 
-const parser = new JSONParser();
-const occOptions = parser.getOccupations();
-const hobbyOptions = parser.getHobbies();
 const { Panel } = Collapse;
 
 
@@ -20,10 +18,12 @@ function CollapseSection({profileInfo, setProfileInfo}) {
   };
 
   return (
-    <Collapse defaultActiveKey={['1']} onChange={onChange} className='stretch'>
-      <Panel header="Profile Information" key="1" className=''>
+    <Collapse onChange={onChange} className='stretch'>
+      <Panel header="Usage Steps" key="1" className=''>
+        <SetupList/>
+      </Panel>
+      <Panel header="Profile Information" key="2" className=''>
         <div className="flex-row">
-        {/* <h2>Profile Information</h2> */}
           <RangePickerLabelled profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
 
           <AutoCompleteLabelled options={occOptions} label='Occupation' placeholder={'e.g. Developer'} profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
@@ -39,9 +39,6 @@ function CollapseSection({profileInfo, setProfileInfo}) {
           <CheckboxLabelled label={'Pets'} profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
         </div>
       </Panel>
-      {/* <Panel showArrow={false} header="This is panel header with no arrow icon" key="2">
-        <p>{text}</p>
-      </Panel> */}
     </Collapse>
   );
 };

@@ -10,6 +10,8 @@ import { CloudDownloadOutlined } from '@ant-design/icons'
 function App() {
 
   const [tabURL, setTabURL] = useState('');
+  const [flatInfo, setFlatInfo] = useState('');
+  const [clip, setClip] = useState(false);
   const [profileInfo, setProfileInfo] = useState({
     diet: '',
     smoker: false,
@@ -22,12 +24,41 @@ function App() {
 
   const [aiMessage, setAiMessage] = useState('');
 
+  // chrome.tabs.onUpdated.addListener(
+  //   function(tabId, changeInfo, tab) {
+  //     if (changeInfo.url) {
+  //       console.log("Tab URL has changed to: " + changeInfo.url);
+  //     }
+  //   }
+  // );
 
-  useEffect(()=>{
-    chrome.storage.session.get(['profileInfo']).then((result) => {
-      console.log("Value currently is " + result.profileInfo);
-      setProfileInfo(result.profileInfo);
-    });
+  function getPropertyDescription(){
+    return document.querySelector('.detaildesc').textContent + ' New flatmate preferences: ' + document.querySelector(".feature--household-preferences").children[1].textContent;
+  }
+
+
+
+  useEffect(async () => {
+    const result = await chrome.storage.session.get(['profileInfo']);
+    console.log('The session stored is: ', result.profileInfo)
+    setProfileInfo(result.profileInfo);
+
+    //get current tab
+    const queryOptions = { active: true, lastFocusedWindow: true };
+    const [tab] = await chrome.tabs.query(queryOptions);
+
+    //get flatdescription if on spareroom
+    if (tab && tab.url.includes('www.spareroom.co.uk')){
+      const [res] = await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: getPropertyDescription,
+      });
+      setFlatInfo(res.result);
+    }
+   
+    setTabURL(tab.url);
+    return tab;
+
   },[])
 
   useEffect(() => {
@@ -39,19 +70,13 @@ function App() {
   }, [profileInfo])
 
 
-  async function getCurrentTab() {
-    let queryOptions = { active: true, lastFocusedWindow: true };
-    // `tab` will either be a `tabs.Tab` instance or `undefined`.
-    let [tab] = await chrome.tabs.query(queryOptions);
-    setTabURL(tab.url);
-    return tab;
-  }
-
   async function callService(){
     const service = new OpenAiService();
-    const response = await service.generateMessage();
+    const response = await service.generateMessage(flatInfo);
+
     console.log("OpenAI Response: " , response)
     console.log("OpenAI text: ", response.choices[0].text)
+
     setAiMessage(response.choices[0].text);
     await copyContent(response.choices[0].text);
   }
@@ -59,11 +84,10 @@ function App() {
   async function copyContent(text) {
     try {
       await navigator.clipboard.writeText(text);
+      setClip(true);
       console.log('Content copied to clipboard');
-      /* Resolved - text copied to clipboard successfully */
     } catch (err) {
       console.error('Failed to copy: ', err);
-      /* Rejected - text failed to copy to the clipboard */
     }
   }
 
@@ -91,12 +115,19 @@ function App() {
       <h2>Spareroom Message Generator ⚡️</h2>
       <CollapseSection profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
       {
-        tabURL && <p>{tabURL}</p>
+        tabURL && <p>{tabURL.slice(0, 14)}</p>
+      }
+      {
+        flatInfo && <p>{flatInfo}</p>
+      }
+      {
+        clip && <h3>Copied!</h3>
       }
       <Button
           type="primary"
           icon={<CloudDownloadOutlined />}
           loading={loadings[1]}
+          disabled={!flatInfo}
           onClick={() => {
             callService();
             enterLoading(1);

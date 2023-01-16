@@ -10,7 +10,8 @@
     "tabs",
     "activeTab",
     "storage",
-    "clipboard"
+    "clipboard",
+    "scripting"
   ],
   "host_permissions": [
     "https://developer.chrome.com/*",
