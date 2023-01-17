@@ -35,10 +35,7 @@ function App() {
       });
       setFlatInfo(res.result);
     }
-   
     setTabURL(tab.url);
-    return tab;
-
   },[])
 
   useEffect(async () => {
@@ -55,16 +52,22 @@ function App() {
     console.log("OpenAI text: ", response.choices[0].text)
 
     setAiMessage(response.choices[0].text);
-    await copyContent(response.choices[0].text);
+    const success = await copyContent(response.choices[0].text);
+    if (success){
+      Notification.openSuccess(messageApi, 'Message copied to clipboard!')
+    } else {
+      Notification.openWarning(messageApi, 'There was an issue, try again later');
+    }
   }
 
   async function copyContent(text) {
     try {
       await navigator.clipboard.writeText(text);
-      Notification.openSuccess(messageApi, 'Message copied to clipboard!')
       setClip(true);
+      return true;
     } catch (err) {
-      Notification.openWarning(messageApi, 'There was an issue, try again later');
+      console.log('There was an error copying the message to the clipboard')
+      return false;
     }
   }
 
