@@ -12,5 +12,15 @@ const parser = new JSONParser();
 const occOptions = parser.getOccupations();
 const hobbyOptions = parser.getHobbies();
 
+const defaultProfileInfo = {
+  diet: '',
+  smoker: false,
+  pets: false,
+  age: 20,
+  rangePicked: '',
+  occupation: '',
+  hobbies: '' //this will be an array of strings when the user selects tags
+}
 
-export {listItems, occOptions, hobbyOptions};
+
+export {listItems, occOptions, hobbyOptions, defaultProfileInfo};

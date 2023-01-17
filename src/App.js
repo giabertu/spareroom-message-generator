@@ -6,21 +6,14 @@ import './App.css';
 import OpenAiService from './api/OpenAiService';
 import CollapseSection from './components/CollapseSection';
 import Notification from './utils/classes/Notification';
+import { defaultProfileInfo } from './utils/data/data';
 
 function App() {
 
   const [tabURL, setTabURL] = useState('');
   const [flatInfo, setFlatInfo] = useState('');
   const [clip, setClip] = useState(false);
-  const [profileInfo, setProfileInfo] = useState({
-    diet: '',
-    smoker: false,
-    pets: false,
-    age: 20,
-    rangePicked: '',
-    occupation: '',
-    hobbies: '' //this will be an array of strings when the user selects tags
-  });
+  const [profileInfo, setProfileInfo] = useState(defaultProfileInfo);
 
   const [aiMessage, setAiMessage] = useState('');
 
