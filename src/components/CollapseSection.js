@@ -6,7 +6,7 @@ import RangePickerLabelled from "./RangePicker";
 import AutoCompleteLabelled from "./AutoComplete";
 import TagSelectorLabelled from "./TagSelector";
 import SetupList from './SetupList';
-import { occOptions, hobbyOptions } from '../utils/data';
+import { occOptions, hobbyOptions } from '../utils/data/data';
 
 const { Panel } = Collapse;
 

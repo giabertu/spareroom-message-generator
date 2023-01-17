@@ -1,5 +1,5 @@
-import occupations from './occupations.json'
-import hobbies from './hobbies.json'
+import occupations from '../occupations.json'
+import hobbies from '../hobbies.json'
 
 class JSONParser{
 

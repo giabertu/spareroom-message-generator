@@ -1,4 +1,4 @@
-import { JSONParser } from "./JSONParser";
+import { JSONParser } from "../classes/JSONParser";
 
 const listItems = [
   '1. Fill in the data you want to be used in the \'Profile Information\' section',

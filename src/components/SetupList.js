@@ -1,5 +1,5 @@
 import { List } from 'antd';
-import { listItems } from '../utils/data.js'
+import { listItems } from '../utils/data/data.js'
 
 function SetupList(){
 

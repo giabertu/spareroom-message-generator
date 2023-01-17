@@ -1,11 +1,10 @@
-// import logo from './logo.svg';
-import './App.css';
 import { useEffect, useState } from 'react';
-// import Profile from './components/Profile';
+import { Button, message } from 'antd';
+import { CloudDownloadOutlined } from '@ant-design/icons'
+
+import './App.css';
 import OpenAiService from './api/OpenAiService';
 import CollapseSection from './components/CollapseSection';
-import { Button } from 'antd';
-import { CloudDownloadOutlined } from '@ant-design/icons'
 
 function App() {
 
@@ -24,13 +23,6 @@ function App() {
 
   const [aiMessage, setAiMessage] = useState('');
 
-  // chrome.tabs.onUpdated.addListener(
-  //   function(tabId, changeInfo, tab) {
-  //     if (changeInfo.url) {
-  //       console.log("Tab URL has changed to: " + changeInfo.url);
-  //     }
-  //   }
-  // );
 
   function getPropertyDescription(){
     return document.querySelector('.detaildesc').textContent + ' New flatmate preferences: ' + document.querySelector(".feature--household-preferences").children[1].textContent;
@@ -84,14 +76,32 @@ function App() {
   async function copyContent(text) {
     try {
       await navigator.clipboard.writeText(text);
+      openSuccessNotification('Message copied to clipboard!')
       setClip(true);
-      console.log('Content copied to clipboard');
     } catch (err) {
-      console.error('Failed to copy: ', err);
+      openWarningNotification('There was an issue, try again later');
     }
   }
 
   const [loadings, setLoadings] = useState([]);
+  const [messageApi, contextHolder] = message.useMessage();
+
+  function openSuccessNotification(content) {
+    messageApi.open({
+      type: 'success',
+      content: content,
+      style: {
+        marginTop: '20vh',
+      },
+    });
+  };
+
+  function openWarningNotification(content){
+      messageApi.open({
+        type: 'warning',
+        content: content,
+      });
+  }
 
   const enterLoading = (index) => {
     setLoadings((prevLoadings) => {
@@ -123,7 +133,9 @@ function App() {
       {
         clip && <h3>Copied!</h3>
       }
-      <Button
+      <div>
+        {contextHolder}
+        <Button
           type="primary"
           icon={<CloudDownloadOutlined />}
           loading={loadings[1]}
@@ -134,11 +146,10 @@ function App() {
           }}>
           Generate Message
         </Button>
+      </div>
     </div>
   );
 }
 
 export default App;
 
-
-//www.spareroom.co.uk/flatshare/flatshare_detail.pl?flatshare_id=16543345&search_id=&city_id=&flatshare_type=offered&search_results=%2Fflatshare%2F%3Ffilter%3Dshortlist%26flatshare_type%3Doffered&
