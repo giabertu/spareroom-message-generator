@@ -7,6 +7,7 @@ import OpenAiService from './api/OpenAiService';
 import CollapseSection from './components/CollapseSection';
 import Notification from './utils/classes/Notification';
 import { defaultProfileInfo } from './utils/data/data';
+import { getPropertyDescription } from './utils/classes/Script';
 
 function App() {
 
@@ -16,13 +17,6 @@ function App() {
   const [profileInfo, setProfileInfo] = useState(defaultProfileInfo);
 
   const [aiMessage, setAiMessage] = useState('');
-
-
-  function getPropertyDescription(){
-    return document.querySelector('.detaildesc').textContent + ' New flatmate preferences: ' + document.querySelector(".feature--household-preferences").children[1].textContent;
-  }
-
-
 
   useEffect(async () => {
     const result = await chrome.storage.session.get(['profileInfo']);
@@ -47,12 +41,9 @@ function App() {
 
   },[])
 
-  useEffect(() => {
-  
-    chrome.storage.session.set({ profileInfo: profileInfo }).then(() => {
-      console.log("Value is set to " + profileInfo);
-    });
-
+  useEffect(async () => {
+    await chrome.storage.session.set({ profileInfo: profileInfo })
+    console.log('Profile info set inside session!')
   }, [profileInfo])
 
 
