@@ -11,7 +11,7 @@ import { occOptions, hobbyOptions } from '../utils/data/data';
 const { Panel } = Collapse;
 
 
-function CollapseSection({profileInfo, setProfileInfo}) {
+function CollapseSection({profileInfo, setProfileInfo, aiMessage}) {
 
   const onChange = (key) => {
     console.log(key);
@@ -38,6 +38,9 @@ function CollapseSection({profileInfo, setProfileInfo}) {
           
           <CheckboxLabelled label={'Pets'} profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
         </div>
+      </Panel>
+      <Panel header="Message Preview" collapsible={aiMessage ? '' : 'disabled'} key='3'>
+        <p>{aiMessage}</p>
       </Panel>
     </Collapse>
   );

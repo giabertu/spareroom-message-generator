@@ -94,7 +94,7 @@ function App() {
   return (
     <div className="App flex-col debug">
       <h2>Spareroom Message Generator ⚡️</h2>
-      <CollapseSection profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
+      <CollapseSection profileInfo={profileInfo} setProfileInfo={setProfileInfo} aiMessage={aiMessage}/>
       {
         tabURL && <p>{tabURL.slice(0, 14)}</p>
       }
