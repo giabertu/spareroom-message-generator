@@ -5,6 +5,7 @@ import { CloudDownloadOutlined } from '@ant-design/icons'
 import './App.css';
 import OpenAiService from './api/OpenAiService';
 import CollapseSection from './components/CollapseSection';
+import Notification from './utils/classes/Notification';
 
 function App() {
 
@@ -76,32 +77,15 @@ function App() {
   async function copyContent(text) {
     try {
       await navigator.clipboard.writeText(text);
-      openSuccessNotification('Message copied to clipboard!')
+      Notification.openSuccess(messageApi, 'Message copied to clipboard!')
       setClip(true);
     } catch (err) {
-      openWarningNotification('There was an issue, try again later');
+      Notification.openWarning(messageApi, 'There was an issue, try again later');
     }
   }
 
   const [loadings, setLoadings] = useState([]);
   const [messageApi, contextHolder] = message.useMessage();
-
-  function openSuccessNotification(content) {
-    messageApi.open({
-      type: 'success',
-      content: content,
-      style: {
-        marginTop: '20vh',
-      },
-    });
-  };
-
-  function openWarningNotification(content){
-      messageApi.open({
-        type: 'warning',
-        content: content,
-      });
-  }
 
   const enterLoading = (index) => {
     setLoadings((prevLoadings) => {

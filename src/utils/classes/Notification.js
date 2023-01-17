@@ -4,14 +4,21 @@ class Notification {
 
   constructor(){}
 
-  static openSuccess(message, content){
-
-    
-
+  static openSuccess(messageApi, content){
+    messageApi.open({
+      type: 'success',
+      content: content,
+      style: {
+        marginTop: '20vh',
+      },
+    });
   }
 
-  static openWarning(message, content){
-
+  static openWarning(messageApi, content){
+    messageApi.open({
+      type: 'warning',
+      content: content,
+    });
   }
 
 
