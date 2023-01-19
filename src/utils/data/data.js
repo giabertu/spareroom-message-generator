@@ -25,8 +25,8 @@ const defaultProfileInfo = {
 
 
 function getParsedProfile(profileInfo){
-  profileString = ''
-  for ([key, value] of Object.entries(profileInfo)){
+  let profileString = ''
+  for (let [key, value] of Object.entries(profileInfo)){
     if (value && key !== 'rangePicked'){
       value = value == true ? 'Yes' : value;
       profileString += `, ${key}: ${value}`

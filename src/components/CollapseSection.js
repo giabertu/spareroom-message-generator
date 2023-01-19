@@ -1,4 +1,4 @@
-import { Collapse } from 'antd';
+import { Collapse, Button} from 'antd';
 import CascaderWithTitle from "./Cascader";
 import CheckboxLabelled from "./Checkbox";
 import InputNumberWithTitle from "./InputNumber";
@@ -7,15 +7,29 @@ import AutoCompleteLabelled from "./AutoComplete";
 import TagSelectorLabelled from "./TagSelector";
 import SetupList from './SetupList';
 import { occOptions, hobbyOptions } from '../utils/data/data';
+import InputField from './InputField';
+import Notification from '../utils/classes/Notification';
+
+import { CopyOutlined } from '@ant-design/icons';
 
 const { Panel } = Collapse;
 
 
-function CollapseSection({profileInfo, setProfileInfo, aiMessage}) {
+function CollapseSection({profileInfo, setProfileInfo, aiMessage, messageApi}) {
 
   const onChange = (key) => {
     console.log(key);
   };
+
+  async function onClick() {
+    try {
+      await navigator.clipboard.writeText(aiMessage);
+      Notification.openSuccess(messageApi, 'Message copied to clipboard!')
+    } catch (err) {
+      Notification.openWarning(messageApi, 'There was an issue copying to the clipboard, please copy the message in \'Message Preview\' manually.');
+      console.log('There was an error copying the message to the clipboard ', err)
+    }
+  }
 
   return (
     <Collapse onChange={onChange} className='stretch'>
@@ -28,11 +42,13 @@ function CollapseSection({profileInfo, setProfileInfo, aiMessage}) {
 
           <AutoCompleteLabelled options={occOptions} label='Occupation' placeholder={'e.g. Developer'} profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
 
-          <CascaderWithTitle profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
-
+          <InputField label={'Name'} profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
+          
           <InputNumberWithTitle profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
 
           <TagSelectorLabelled options={hobbyOptions} label='Hobbies' placeholder={'e.g. Swimming'} profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
+
+          <CascaderWithTitle profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
 
           <CheckboxLabelled label={'Smoker'} profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
           
@@ -40,7 +56,14 @@ function CollapseSection({profileInfo, setProfileInfo, aiMessage}) {
         </div>
       </Panel>
       <Panel header="Message Preview" collapsible={aiMessage ? '' : 'disabled'} key='3'>
-        <p>{aiMessage}</p>
+        <p className='pre-line'>{aiMessage}</p>
+        <Button 
+          type="dashed"
+          icon={<CopyOutlined />}
+          onClick={onClick}
+          >
+            Copy Message
+        </Button>
       </Panel>
     </Collapse>
   );

@@ -9,7 +9,7 @@ function AutoCompleteLabelled ({options, placeholder, label, profileInfo, setPro
   
   return (
   <div>
-    <h3>{label}</h3>
+    <h4>{label}</h4>
     <AutoComplete
       style={{width: 150}}
       options={options}

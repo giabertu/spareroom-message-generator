@@ -14,7 +14,7 @@ function TagSelectorLabelled({label, options, placeholder, profileInfo, setProfi
   return (
   
     <div>
-      <h3>{label}</h3>
+      <h4>{label}</h4>
       <Select
         mode="tags"
         style={{width: 150}}

@@ -11,7 +11,7 @@ function RangePickerLabelled({profileInfo, setProfileInfo}){
 
   return (
     <div>
-      <h3>Rent Duration</h3>
+      <h4>Rent Duration</h4>
       <RangePicker size={'middle'} picker="month" popupStyle={{ scale: '0.8' }} onChange={onChange} 
       value={profileInfo && dayjs(profileInfo.rangePicked[0]).isValid() && dayjs(profileInfo.rangePicked[1], 'YYYY-MM').isValid() ? [dayjs(profileInfo.rangePicked[0], 'YYYY-MM'), dayjs(profileInfo.rangePicked[1], 'YYYY-MM')] : null }/>
     </div>

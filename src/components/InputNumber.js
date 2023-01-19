@@ -10,7 +10,7 @@ function InputNumberWithTitle({profileInfo, setProfileInfo}){
   
   return (
     <div>
-      <h3>Age</h3>
+      <h4>Age</h4>
       <InputNumber min={15} max={100} onChange={onChange} value={profileInfo ? profileInfo.age : 20}/>
     </div>
   )

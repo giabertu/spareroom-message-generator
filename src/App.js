@@ -52,27 +52,14 @@ function App() {
 
 
   async function handleGenerateMessage(){
+    setLoading(true);
     const service = new OpenAiService();
     const profileString = getParsedProfile(profileInfo)
     const response = await service.generateMessage(flatInfo, profileString);
 
-    setAiMessage(response.choices[0].text);
-    const success = await copyContent(response.choices[0].text);
-    if (success){
-      Notification.openSuccess(messageApi, 'Message copied to clipboard!')
-    } else {
-      Notification.openWarning(messageApi, 'There was an issue, try again later');
-    }
-  }
-
-  async function copyContent(text) {
-    try {
-      await navigator.clipboard.writeText(text);
-      return true;
-    } catch (err) {
-      console.log('There was an error copying the message to the clipboard')
-      return false;
-    }
+    setAiMessage(response.choices[0].text.replace('\n', ''));
+    Notification.openSuccess(messageApi, 'Message created! See \'Message Preview\' tab for more.')
+    setLoading(false);
   }
 
   return (
@@ -81,7 +68,7 @@ function App() {
         <img src={spareroom} className='width-60 m-l-20'/>
         <h2>Spareroom Message Generator ⚡️</h2>
       </div>
-      <CollapseSection profileInfo={profileInfo} setProfileInfo={setProfileInfo} aiMessage={aiMessage}/>
+      <CollapseSection profileInfo={profileInfo} setProfileInfo={setProfileInfo} aiMessage={aiMessage} messageApi={messageApi}/>
       <div>
         {contextHolder}
         <Button
@@ -89,11 +76,7 @@ function App() {
           icon={<CloudDownloadOutlined />}
           loading={loading}
           disabled={!flatInfo}
-          onClick={() => {
-            setLoading(true);
-            handleGenerateMessage();
-            setLoading(false);
-          }}>
+          onClick={handleGenerateMessage}>
           Generate Message
         </Button>
       </div>

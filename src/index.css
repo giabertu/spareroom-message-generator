@@ -76,3 +76,12 @@ code {
 .m-l-20 {
   margin-left: 20px;
 }
+
+h4 {
+  margin-block-start: 0.5rem;
+  margin-block-end: 0.5rem;
+}
+
+.pre-line {
+  white-space: pre-line
+}

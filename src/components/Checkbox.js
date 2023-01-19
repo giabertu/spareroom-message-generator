@@ -14,7 +14,7 @@ function CheckboxLabelled ({label, profileInfo, setProfileInfo}){
 
   return (
     <div>
-      <h3>{label}</h3>
+      <h4>{label}</h4>
       <Checkbox onChange={onChange} checked={profileInfo && label == 'Smoker'? profileInfo.smoker : profileInfo.pets}></Checkbox>
     </div>
   )
