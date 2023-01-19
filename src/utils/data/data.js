@@ -13,6 +13,7 @@ const occOptions = parser.getOccupations();
 const hobbyOptions = parser.getHobbies();
 
 const defaultProfileInfo = {
+  name: '',
   diet: '',
   smoker: false,
   pets: false,
@@ -23,4 +24,21 @@ const defaultProfileInfo = {
 }
 
 
-export {listItems, occOptions, hobbyOptions, defaultProfileInfo};
+function getParsedProfile(profileInfo){
+  profileString = ''
+  for ([key, value] of Object.entries(profileInfo)){
+    if (value && key !== 'rangePicked'){
+      value = value == true ? 'Yes' : value;
+      profileString += `, ${key}: ${value}`
+    } else if (value && key == 'rangePicked'){
+      profileString += `, Renting from: ${value.slice(0, 7)}, to ${value.slice(7)}` 
+    } else if (key == 'smoker'){
+      value = value == true ? 'Yes' : 'No';
+      profileString += `, ${key}: ${value}` 
+    }
+  }
+  return profileString.replace(',', '').trim();
+}
+
+
+export {listItems, occOptions, hobbyOptions, defaultProfileInfo, getParsedProfile};

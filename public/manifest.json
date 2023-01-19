@@ -2,9 +2,9 @@
   "short_name": "Your Extension Name",
   "name": "Your Extension Name",
   "icons": {
-    "16": "favicon.ico",
-    "48": "logo192.png",
-    "128": "logo512.png"
+    "16": "spareroom-ext-logo-16.png",
+    "48": "spareroom-ext-logo-48.png",
+    "128": "spareroom-ext-logo-128.png"
   },
   "permissions": [
     "tabs",

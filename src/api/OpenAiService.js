@@ -20,12 +20,12 @@ class OpenAiService {
     this.url = "https://api.openai.com/v1/completions"
   }
 
-  async generateMessage(flatInfo){
+  async generateMessage(flatInfo, profileString){
 
     const reqBody = {
       model: "text-davinci-003",
       prompt: `
-        Given the following Spareroom advert: (beginning) ${flatInfo} (end). Generate a contact message (asking for availability of viewings), which is not too long but tailored to the advert, that takes into account the new flatmate preferences (occupation, min age and preferred gender too) from a person with the following profile: Vegan, 22, No pets, No smoker, Student, Likes Swimming and Running. If the profile does not match desired age, mention it and ask if it's okay. If the profile does not match desired occupation, mention it and ask if it's okay.
+        Given the following Spareroom advert: (beginning) ${flatInfo} (end). Generate a contact message (asking for availability of viewings), which is not too long but tailored to the advert, taking into account new flatmate preferences (occupation, min age and preferred gender too) from a person with profile: ${profileString}. If the profile doesn't fall in range of desired age, mention it and ask if it's okay. If the profile doesn't match desired occupation, mention it and ask if it's okay. 
       `,
       max_tokens: 2048,
       temperature: 0,

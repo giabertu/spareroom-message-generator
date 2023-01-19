@@ -53,6 +53,10 @@ code {
   width: 20px;
 }
 
+.width-60 {
+  width: 60px;
+}
+
 .width-275 {
   width: 275px;
 }
@@ -63,4 +67,12 @@ code {
   color: gray;
   cursor: pointer;
   /* margin-top: 10vh; */
+}
+
+.rounded-logo {
+  border-radius: 50%;
+}
+
+.m-l-20 {
+  margin-left: 20px;
 }
