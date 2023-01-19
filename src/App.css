@@ -1,7 +1,11 @@
 .App {
   text-align: center;
+  margin: 2rem;
+  border-radius: 30px;
   min-height: fit-content;
   width: 500px;
+  padding: 1rem;
+  background-color: white;
 }
 
 .App-logo {

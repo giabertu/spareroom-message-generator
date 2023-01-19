@@ -23,7 +23,7 @@ function CollapseSection({profileInfo, setProfileInfo, aiMessage}) {
         <SetupList/>
       </Panel>
       <Panel header="Profile Information" key="2" className=''>
-        <div className="flex-row">
+        <div className="flex-row gap-1">
           <RangePickerLabelled profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
 
           <AutoCompleteLabelled options={occOptions} label='Occupation' placeholder={'e.g. Developer'} profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
