@@ -24,13 +24,14 @@ function App() {
   
   useEffect(() => {
     (async () => {
-      const result = await chrome.storage.session.get(['profileInfo']);
-      console.log('The session stored is: ', result.profileInfo)
-      setProfileInfo(result.profileInfo);
-      
+     const [sessionResult, tabQueryResult] = await Promise.all([
+      chrome.storage.session.get(['profileInfo']),
+      chrome.tabs.query({active: true, lastFocusedWindow: true}) 
+     ]);
+      console.log('The session stored is: ', sessionResult.profileInfo)
+      setProfileInfo(sessionResult.profileInfo);
       //get current tab
-      const queryOptions = { active: true, lastFocusedWindow: true };
-      const [tab] = await chrome.tabs.query(queryOptions);
+      const [tab] = tabQueryResult
       
       //get flatdescription if on spareroom
       if (tab && tab.url.includes('www.spareroom.co.uk')){
@@ -55,7 +56,7 @@ function App() {
     setLoading(true);
     const service = new OpenAiService();
     const profileString = getParsedProfile(profileInfo)
-    const response = await service.generateMessage(flatInfo, profileString);
+    const response = await service.newMessage(flatInfo, profileString);
 
     setAiMessage(response.choices[0].text.replace('\n', ''));
     Notification.openSuccess(messageApi, 'Message created! See \'Message Preview\' tab for more.')

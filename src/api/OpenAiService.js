@@ -20,36 +20,8 @@ class OpenAiService {
     this.url = "https://api.openai.com/v1/completions"
   }
 
-  async generateMessage(flatInfo, profileString){
-
-    const reqBody = {
-      model: "text-davinci-003",
-      prompt: `
-        Given the following Spareroom advert: (beginning) ${flatInfo} (end). Generate a contact message (asking for availability of viewings), which is not too long but tailored to the advert, taking into account new flatmate preferences (occupation, min age and preferred gender too) from a person with profile: ${profileString}. If the profile doesn't fall in range of desired age, mention it and ask if it's okay. If the profile doesn't match desired occupation, mention it and ask if it's okay. 
-      `,
-      max_tokens: 2048,
-      temperature: 0,
-      top_p: 1,
-      n: 1,
-      stream: false,
-      logprobs: null,
-      stop: ""
-    }
-
-    const response = await fetch(this.url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.secret}`
-      },
-      body: JSON.stringify(reqBody)
-    });
-    const data = await response.json();
-    return data;
-  }
-
   async newMessage(flatInfo, profileString){
-    const response = await fetch('http://127.0.0.1:3000/newmessage', {
+    const response = await fetch('https://spareroom-ext-server.vercel.app/newmessage', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
