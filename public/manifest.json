@@ -1,6 +1,6 @@
 {
-  "short_name": "Your Extension Name",
-  "name": "Your Extension Name",
+  "short_name": "SpareText",
+  "name": "Spareroom Message Generator",
   "icons": {
     "16": "spareroom-ext-logo-16.png",
     "48": "spareroom-ext-logo-48.png",
@@ -24,5 +24,6 @@
   "action": {
     "default_popup": "index.html",
     "default_title": "Your Extension Name"
-  }
+  },
+  "description": "An extension that allows you to generate contact messages to Spareroom adverts using AI, and based on your preferences."
 }
