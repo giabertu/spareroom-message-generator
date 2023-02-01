@@ -61,11 +61,10 @@ function App() {
       setAiMessage(response.choices[0].text.replace('\n', ''));
       Notification.openSuccess(messageApi, 'Message created! See \'Message Preview\' tab for more.')
     } catch (error){
-      setLoading(false);
       console.log(error)
       Notification.openWarning(messageApi, 'There was an error creating the message. Try later.')
     }
-
+    setLoading(false);
   }
 
   return (
