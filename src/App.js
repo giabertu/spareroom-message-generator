@@ -56,11 +56,16 @@ function App() {
     setLoading(true);
     const service = new OpenAiService();
     const profileString = getParsedProfile(profileInfo)
-    const response = await service.newMessage(flatInfo, profileString);
+    try{
+      const response = await service.newMessage(flatInfo, profileString);
+      setAiMessage(response.choices[0].text.replace('\n', ''));
+      Notification.openSuccess(messageApi, 'Message created! See \'Message Preview\' tab for more.')
+    } catch (error){
+      setLoading(false);
+      console.log(error)
+      Notification.openWarning(messageApi, 'There was an error creating the message. Try later.')
+    }
 
-    setAiMessage(response.choices[0].text.replace('\n', ''));
-    Notification.openSuccess(messageApi, 'Message created! See \'Message Preview\' tab for more.')
-    setLoading(false);
   }
 
   return (
