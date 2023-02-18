@@ -52,20 +52,65 @@ function App() {
   }, [profileInfo]) 
 
 
-  async function handleGenerateMessage(){
+  // async function handleGenerateMessage(){
+  //   setLoading(true);
+  //   const service = new OpenAiService();
+  //   const profileString = getParsedProfile(profileInfo)
+  //   try{
+  //     const response = await service.newMessage(flatInfo, profileString);
+  //     setAiMessage(response.choices[0].text.replace('\n', ''));
+  //     Notification.openSuccess(messageApi, 'Message created! See \'Message Preview\' tab for more.')
+  //   } catch (error){
+  //     console.log(error)
+  //     Notification.openWarning(messageApi, 'There was an error creating the message. Try later.')
+  //   }
+  //   setLoading(false);
+  // }
+
+  async function handleGenerateMessage() {
     setLoading(true);
-    const service = new OpenAiService();
     const profileString = getParsedProfile(profileInfo)
+    const response = await fetch("https://spareroom-ext-server.vercel.app/newmessage", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({flatInfo, profileString}),
+    });
+    console.log("Edge function returned.");
+
+    console.log(response)
+
     try{
-      const response = await service.newMessage(flatInfo, profileString);
-      setAiMessage(response.choices[0].text.replace('\n', ''));
-      Notification.openSuccess(messageApi, 'Message created! See \'Message Preview\' tab for more.')
-    } catch (error){
-      console.log(error)
-      Notification.openWarning(messageApi, 'There was an error creating the message. Try later.')
+        if (!response.ok) {
+          console.log(response.statusText)
+          throw new Error(response.statusText);
+        }
+        
+        // This data is a ReadableStream
+        const data = response.body;
+        if (!data) {
+          return;
+        }
+        
+        const reader = data.getReader();
+        const decoder = new TextDecoder();
+        let done = false;
+        
+        Notification.openSuccess(messageApi, "Message is being generated!")
+
+        while (!done) {
+          const { value, done: doneReading } = await reader.read();
+          done = doneReading;
+          const chunkValue = decoder.decode(value);
+          setAiMessage((prev) => prev + chunkValue);
+        }
+        setLoading(false);
+    } catch (e){
+      Notification.openWarning(messageApi, "An unknown error occured, try again later")
     }
-    setLoading(false);
-  }
+  };
+
 
   return (
     <div className="App flex-col gap-1">

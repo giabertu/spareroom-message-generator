@@ -31,7 +31,7 @@ function CollapseSection({profileInfo, setProfileInfo, aiMessage, messageApi}) {
     }
   }
 
-  return (
+  return (<>
     <Collapse onChange={onChange} className='stretch'>
       <Panel header="Usage Steps" key="1" className=''>
         <SetupList/>
@@ -55,7 +55,9 @@ function CollapseSection({profileInfo, setProfileInfo, aiMessage, messageApi}) {
           <CheckboxLabelled label={'Pets'} profileInfo={profileInfo} setProfileInfo={setProfileInfo}/>
         </div>
       </Panel>
-      <Panel header="Message Preview" collapsible={aiMessage ? '' : 'disabled'} key='3'>
+    </Collapse>
+    <Collapse className='stretch' activeKey={aiMessage ? ['3']: ''} ghost>
+      <Panel header="Message Preview" collapsible={aiMessage ? '' : 'disabled'} key='3' showArrow={false}>
         <p className='pre-line'>{aiMessage}</p>
         <Button 
           type="dashed"
@@ -66,6 +68,6 @@ function CollapseSection({profileInfo, setProfileInfo, aiMessage, messageApi}) {
         </Button>
       </Panel>
     </Collapse>
-  );
+  </>);
 };
 export default CollapseSection;
