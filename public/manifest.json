@@ -19,7 +19,7 @@
     "https://*/*"
   ],
   "manifest_version": 3,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "action": {
     "default_popup": "index.html",
     "default_title": "Your Extension Name"
