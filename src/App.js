@@ -33,8 +33,8 @@ function App() {
       //get current tab
       const [tab] = tabQueryResult
       
-      //get flatdescription if on spareroom
-      if (tab && tab.url.includes('www.spareroom.co.uk')){
+      //get flatdescription if on spareroom UK or US
+      if (tab && (tab.url.includes('www.spareroom.co.uk') || tab.url.includes('www.spareroom.com'))){
         const [res] = await chrome.scripting.executeScript({
           target: { tabId: tab.id },
           func: getPropertyDescription,
@@ -51,37 +51,21 @@ function App() {
     })()
   }, [profileInfo]) 
 
-
-  // async function handleGenerateMessage(){
-  //   setLoading(true);
-  //   const service = new OpenAiService();
-  //   const profileString = getParsedProfile(profileInfo)
-  //   try{
-  //     const response = await service.newMessage(flatInfo, profileString);
-  //     setAiMessage(response.choices[0].text.replace('\n', ''));
-  //     Notification.openSuccess(messageApi, 'Message created! See \'Message Preview\' tab for more.')
-  //   } catch (error){
-  //     console.log(error)
-  //     Notification.openWarning(messageApi, 'There was an error creating the message. Try later.')
-  //   }
-  //   setLoading(false);
-  // }
-
   async function handleGenerateMessage() {
     setLoading(true);
-    const profileString = getParsedProfile(profileInfo)
-    const response = await fetch("https://spareroom-ext-server.vercel.app/newmessage", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({flatInfo, profileString}),
-    });
-    console.log("Edge function returned.");
-
-    console.log(response)
-
-    try{
+    if (flatInfo){
+      const profileString = getParsedProfile(profileInfo)
+      const response = await fetch("https://spareroom-ext-server.vercel.app/newmessage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({flatInfo, profileString}),
+      });
+      console.log("Edge function returned.");
+      console.log(response)
+      
+      try{
         if (!response.ok) {
           console.log(response.statusText)
           throw new Error(response.statusText);
@@ -97,8 +81,6 @@ function App() {
         const decoder = new TextDecoder();
         let done = false;
         
-        Notification.openSuccess(messageApi, "Message is being generated!")
-
         while (!done) {
           const { value, done: doneReading } = await reader.read();
           done = doneReading;
@@ -106,8 +88,14 @@ function App() {
           setAiMessage((prev) => prev + chunkValue);
         }
         setLoading(false);
-    } catch (e){
-      Notification.openWarning(messageApi, "An unknown error occured, try again later")
+        Notification.openSuccess(messageApi, "Message generated! Click \"Copy Message\" to copy.")
+      } catch (e){
+        Notification.openWarning(messageApi, "An unknown error occured, try again later")
+      }
+    
+    //triggered only if flatInfo is empty string
+    } else {
+      Notification.openWarning(messageApi, "It seems like you are not on a listing page. Click on a Spareroom listing and try again")
     }
   };
 
@@ -141,9 +129,3 @@ function App() {
 
 export default App;
 
-
-
-//  icons in manifestt  
-// "16": "favicon.ico",
-    // "48": "logo192.png",
-    // "128": "logo512.png"

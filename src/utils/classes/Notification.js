@@ -8,9 +8,9 @@ class Notification {
     messageApi.open({
       type: 'success',
       content: content,
-      style: {
-        marginTop: '20vh',
-      },
+      // style: {
+      //   marginTop: '20vh',
+      // },
     });
   }
 
