@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Button, message } from 'antd';
 import { CloudDownloadOutlined } from '@ant-design/icons'
+import {Rate} from 'antd'
 
 import './App.css';
-import OpenAiService from './api/OpenAiService';
 import CollapseSection from './components/CollapseSection';
 import Notification from './utils/classes/Notification';
 import SupportModal from './components/SupportModal';
@@ -118,9 +118,12 @@ function App() {
           Generate Message
         </Button>
       </div>
-      <div className='stretch flex-row flex-end'>
-        <button className='support' onClick={() => setModalOpen(true)}>Support</button>
-        <img src={btc} className='width-20'/>
+      <div className='stretch flex-row justify-between'>
+        <a href='https://chrome.google.com/webstore/detail/spareroom-message-generat/blffnkdfaobeknbcahjppbifklofofhh?' target="_blank"><Rate disabled defaultValue={4.5} style={{transform: 'scale(0.5)'}}/></a>
+        <div className='stretch flex-row flex-end'>
+          <button className='support' onClick={() => setModalOpen(true)}>Support</button>
+          <img src={btc} className='width-20'/>
+        </div>
       </div>
       <SupportModal modalOpen={modalOpen} setModalOpen={setModalOpen}/>
     </div>
